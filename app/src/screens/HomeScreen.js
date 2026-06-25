@@ -45,8 +45,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.headerText}>Encontre seu polo de treino</Text>
         
         {/* Componentes limpos e diretos */}
@@ -59,6 +58,12 @@ export default function HomeScreen({ navigation }) {
             placeholder="Buscar por nome ou bairro..." 
             valor={busca} 
             onChangeText={filtrarLista} 
+        />
+
+        <BotaoPrimario 
+          titulo="⏱️ Ver meu histórico de treinos" 
+          onPress={() => navigation.navigate('History')} 
+          corFundo="#2196F3" // Azul para diferenciar do mapa
         />
 
         {loading ? (
@@ -76,13 +81,12 @@ export default function HomeScreen({ navigation }) {
             contentContainerStyle={styles.listContainer}
             />
         )}
-        </View>
-    </SafeAreaView>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4' },
-  headerText: { fontSize: 14, color: '#666', padding: 15, paddingBottom: 5 },
+  headerText: { fontSize: 18, color: '#666', padding: 15, paddingBottom: 5 },
   listContainer: { paddingHorizontal: 15, paddingBottom: 20 },
 });
