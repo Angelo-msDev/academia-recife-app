@@ -94,23 +94,3 @@ const styles = StyleSheet.create({
   map: { width: '100%', height: '100%' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' }
 });
-
-
-
-
-
-// import React from 'react';
-// import { View, Text, StyleSheet } from 'react-native';
-
-// export default function MapScreen() {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.text}>A visualização em tela cheia do mapa entrará aqui, exibindo o raio verde ao seu redor e os polos próximos.</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-//   text: { fontSize: 16, textAlign: 'center', color: '#666' }
-// });
