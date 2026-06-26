@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import * as Location from 'expo-location';
+
+import { obterLocalizacaoSegura } from '../services/location';
 
 // Importando a nova função do service
 import { enviarCheckinBackend } from '../services/my-api';
@@ -18,8 +19,16 @@ export default function DetailsScreen({ route }) {
     setLoadingCheckin(true);
     try {
       // 1. Pega a localização
-      let location = await Location.getCurrentPositionAsync({});
-      
+      // let location = await Location.getCurrentPositionAsync({});
+      // 1. Chama o nosso arquivo externo!
+      const coords = await obterLocalizacaoSegura();
+
+      // Se retornou nulo (usuário negou ou deu erro), paramos a execução aqui
+      if (!coords) {
+        setLoadingCheckin(false);
+        return; 
+      }
+
       // 2. Prepara o pacote de dados COMPLETO
       const pacoteParaOBackend = {
         polo_id: academia._id,
@@ -28,8 +37,8 @@ export default function DetailsScreen({ route }) {
         longradouro_polo: academia.logradouro,   // NOVA COLUNA
         latitude_polo: parseFloat(academia.latitude),   // NOVA COLUNA
         longitude_polo: parseFloat(academia.longitude), // NOVA COLUNA
-        latitude_usuario: location.coords.latitude,
-        longitude_usuario: location.coords.longitude,
+        latitude_usuario: coords.latitude,
+        longitude_usuario: coords.longitude,
         data_hora: new Date().toISOString()
       };
 
@@ -39,6 +48,7 @@ export default function DetailsScreen({ route }) {
       Alert.alert("Sucesso! ✅", `Check-in no Polo: ${academia.nome_oficial || academia.bairro} registrado no seu servidor!`);
 
     } catch (error) {
+      console.error("Erro no catch:", error);
       Alert.alert(
         "Erro de Conexão", 
         "Não foi possível conectar ao servidor. Verifique se o Node está rodando e se o IP está correto."
